@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:55:19 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:11:28 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static int	philo_atoi(char *str)
 static t_data	*create_philos(t_data *data)
 {
 	int	i;
+	t_philo	*philo;
 
 	if (!data)
 		return (0);
@@ -44,6 +45,12 @@ static t_data	*create_philos(t_data *data)
 		i++;
 	}
 	// TODO: Initialize mutexes and semaphores here.
+	philo = data->philos;
+	while (philo)
+	{
+		pthread_mutex_init(&philo->mutex_fork, 0);
+		philo = philo->next;
+	}
 	philo_init_threads(data);
 	return (data);
 }
