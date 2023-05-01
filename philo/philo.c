@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:13 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:33:42 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:14:34 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ int	main(int argc, char **argv)
 		philo = philo->next;
 	}
 	free_philos(data->philos);
+	pthread_mutex_destroy(&(data->mutex_print));
 	free(data);
 	return (0);
 }

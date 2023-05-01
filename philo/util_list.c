@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:38:06 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:13:07 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	*free_philos(t_philo *head)
 	{
 		tmp = head;
 		head = head->next;
+		pthread_mutex_destroy(&(tmp->mutex_fork));
 		free(tmp);
 	}
 	return (0);
