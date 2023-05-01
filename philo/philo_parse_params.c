@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:32:43 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:55:19 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ static t_data	*create_philos(t_data *data)
 		philo_list_add_back(&data->philos, philo_list_new(i, data));
 		i++;
 	}
+	// TODO: Initialize mutexes and semaphores here.
 	philo_init_threads(data);
 	return (data);
 }
@@ -78,7 +79,13 @@ static t_data	*init_data(int argc, char **argv)
 
 t_data	*philo_parse_params(int argc, char **argv)
 {
+	t_data	*data;
+
 	if (argc < 5 || argc > 6)
 		return (printf("Error: wrong number of arguments.\n"), (t_data *) 0);
-	return (init_data(argc, argv));
+	data = init_data(argc, argv);
+	if (!data)
+		return (0);
+	pthread_mutex_init(&data->mutex_print, 0);
+	return (data);
 }

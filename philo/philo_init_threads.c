@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:37:13 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 18:59:49 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ static void	*philo_routine(void *params)
 	t_philo	*philo;
 
 	philo = (t_philo *) params;
+	if (philo->id % 2 == 0)
+		usleep(1000);
+	pthread_mutex_lock(&(philo->data->mutex_print));
 	printf("philo %d\n", philo->id);
+	pthread_mutex_unlock(&(philo->data->mutex_print));
 	return (0);
 }
 
