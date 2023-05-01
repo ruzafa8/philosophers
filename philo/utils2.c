@@ -1,16 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   util_list.c                                        :+:      :+:    :+:   */
+/*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 19:13:07 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 23:02:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+int	all_eaten(t_data *data)
+{
+	int	all_has_eaten;
+
+	pthread_mutex_lock(&(data->mutex_num_philos_eaten));
+	all_has_eaten = data->num_philos_eaten >= data->num_philos;
+	pthread_mutex_unlock(&(data->mutex_num_philos_eaten));
+	return (all_has_eaten);
+}
 
 void	*free_philos(t_philo *head)
 {

@@ -1,8 +1,8 @@
 SRCS	= philo.c \
-		philo_init_threads.c \
+		philo_routine.c \
 		philo_parse_params.c \
 		utils.c \
-		util_list.c
+		utils2.c
 OBJS	= ${SRCS:.c=.o}
 NAME	= philo
 CC		= gcc

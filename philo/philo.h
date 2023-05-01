@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:06:45 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 20:54:58 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:52:40 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,20 @@ struct s_philo
 
 t_data		*philo_parse_params(int argc, char **argv);
 
-/** thread utils **/
-void		philo_init_threads(t_data *data);
+/** philo routine **/
+void	*philo_routine(void *params);
 
 /** utils **/
 void		*philo_calloc(size_t len);
 uint64_t	philo_current_time(void);
+void		set_fork(t_philo *fork, int value);
+void 		increase_num_philos_eaten(t_data *data);
+void		philo_print(int id, t_data *data, char *status);
 
-/** list utils **/
+/** more utils **/
 t_philo		*philo_list_new(int id, t_data *data);
 void		philo_list_add_back(t_philo **head, t_philo *new);
 void		*free_philos(t_philo *head);
+int			all_eaten(t_data *data);
 
 #endif
