@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:06:45 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 19:38:19 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:54:58 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_data	t_data;
 
 struct s_data
 {
-	int				t0;
+	uint64_t		t0;
 	int				num_philos;
 	int				num_meals;
 	int				num_philos_eaten;
@@ -52,18 +52,18 @@ struct s_philo
 	t_philo			*next;
 };
 
-t_data	*philo_parse_params(int argc, char **argv);
+t_data		*philo_parse_params(int argc, char **argv);
 
 /** thread utils **/
-void	philo_init_threads(t_data *data);
+void		philo_init_threads(t_data *data);
 
 /** utils **/
-void	*philo_calloc(size_t len);
-int		philo_current_time(void);
+void		*philo_calloc(size_t len);
+uint64_t	philo_current_time(void);
 
 /** list utils **/
-t_philo	*philo_list_new(int id, t_data *data);
-void	philo_list_add_back(t_philo **head, t_philo *new);
-void	*free_philos(t_philo *head);
+t_philo		*philo_list_new(int id, t_data *data);
+void		philo_list_add_back(t_philo **head, t_philo *new);
+void		*free_philos(t_philo *head);
 
 #endif

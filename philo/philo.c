@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:13 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 19:14:34 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:08:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@ int	main(int argc, char **argv)
 	data = philo_parse_params(argc, argv);
 	if (!data)
 		return (1);
-	printf("num_philos: %d\n", data->num_philos);
-	printf("time_to_die: %d\n", data->time_to_die);
-	printf("time_to_eat: %d\n", data->time_to_eat);
-	printf("time_to_sleep: %d\n", data->time_to_sleep);
-	printf("num_meals: %d\n", data->num_meals);
 	t_philo *philo = data->philos;
 	while (philo)
 	{
 		pthread_join(philo->thread, 0);
 		philo = philo->next;
 	}
+	printf("All philosophers have eaten at least %d times.\n", data->num_meals);
 	free_philos(data->philos);
 	pthread_mutex_destroy(&(data->mutex_print));
 	free(data);

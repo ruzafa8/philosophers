@@ -6,22 +6,40 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 19:33:37 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 20:53:36 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+static void	philo_print(t_philo *philo, char *status)
+{
+	u_int64_t	time;
+
+	pthread_mutex_lock(&(philo->data->mutex_print));
+	time = philo_current_time() - philo->data->t0;
+	printf("%-6llu %-3d %s\n", time, philo->id, status);
+	pthread_mutex_unlock(&(philo->data->mutex_print));
+}
+
+static void	try_take_fork(t_philo *philo)
+{
+	pthread_mutex_lock(&(philo->mutex_fork));
+	if (!philo->fork)
+	{
+		philo->fork = 1;
+		philo_print(philo, "soy subnormal");
+	}
+	pthread_mutex_unlock(&(philo->mutex_fork));
+}
 
 static void	*philo_routine(void *params)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *) params;
-	if (philo->id % 2 == 0)
-		usleep(1000);
-	pthread_mutex_lock(&(philo->data->mutex_print));
-	printf("%d philo %d\n", philo_current_time() - philo->data->t0, philo->id);
-	pthread_mutex_unlock(&(philo->data->mutex_print));
+	try_take_fork(philo);
+	//philo_print(philo, "Am alive!!!!!!!!!!!!!");
 	return (0);
 }
 
