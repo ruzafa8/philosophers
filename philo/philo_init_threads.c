@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 21:38:27 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 21:41:24 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,14 +79,9 @@ static void	*philo_routine(void *params)
 	if (next_philo == 0)
 		next_philo = philo->data->philos;
 	if (philo->id % 2 == 0)
-	{
 		try_take_forks(philo->id, philo, next_philo);
-	}
 	else
-	{
 		try_take_forks(philo->id, next_philo, philo);
-	}
-	//philo_print(philo, "Am alive!!!!!!!!!!!!!");
 	return (0);
 }
 
