@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 22:23:05 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:35:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,8 @@ static void	philo_print(int id, t_data *data, char *status)
 {
 	u_int64_t	time;
 
-
-	pthread_mutex_lock(&(data->mutex_print));
-	if (all_eaten(data))
-	{
-		pthread_mutex_unlock(&(data->mutex_print));
-		return ;
-	}
 	time = philo_current_time() - data->t0;
 	printf("%-6llu %-3d %s\n", time, id, status);
-	pthread_mutex_unlock(&(data->mutex_print));
 }
 
 static int	try_take_fork(int id, t_philo *philo)
@@ -48,6 +40,11 @@ static int	try_take_fork(int id, t_philo *philo)
 	{
 		philo->fork = 1;
 		pthread_mutex_lock(&(philo->data->mutex_print));
+		if (all_eaten(philo->data))
+		{
+			pthread_mutex_unlock(&(philo->data->mutex_print));
+			return (0);
+		}
 		printf("%-6llu %-3d chopstick %d taken.\n", philo_current_time() - philo->data->t0, id, philo->id);
 		pthread_mutex_unlock(&(philo->data->mutex_print));
 		taken = 1;
@@ -60,30 +57,46 @@ static void think(int id, t_philo *fork)
 	int	taken;
 
 	taken = 0;
+	pthread_mutex_lock(&(fork->data->mutex_print));
+	if (all_eaten(fork->data))
+	{
+		pthread_mutex_unlock(&(fork->data->mutex_print));
+		return ;
+	}
 	philo_print(id, fork->data, "is thinking");
+	pthread_mutex_unlock(&(fork->data->mutex_print));
 	while (!taken)
 		taken = try_take_fork(id, fork);
 }
 
 static void eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
+	pthread_mutex_lock(&(me->data->mutex_print));
+	if (all_eaten(me->data))
+	{
+		pthread_mutex_unlock(&(me->data->mutex_print));
+		return ;
+	}
 	philo_print(me->id, first_fork->data, "is eating");
+	pthread_mutex_unlock(&(me->data->mutex_print));
 	usleep(first_fork->data->time_to_eat * 1000);
 	me->time_last_meal = philo_current_time();
 	me->num_meals_eaten++;
+	pthread_mutex_lock(&(me->data->mutex_print));
 	if (me->num_meals_eaten == me->data->num_meals)
 	{
 		pthread_mutex_lock(&(me->data->mutex_num_philos_eaten));
 		me->data->num_philos_eaten++;
 		pthread_mutex_unlock(&(me->data->mutex_num_philos_eaten));
 	}
-	philo_print(me->id, me->data, "is sleeping");
 	pthread_mutex_lock(&(first_fork->mutex_fork));
 	first_fork->fork = 0;
 	pthread_mutex_unlock(&(first_fork->mutex_fork));
 	pthread_mutex_lock(&(second_fork->mutex_fork));
 	second_fork->fork = 0;
 	pthread_mutex_unlock(&(second_fork->mutex_fork));
+	philo_print(me->id, me->data, "is sleeping");
+	pthread_mutex_unlock(&(me->data->mutex_print));
 	usleep(me->data->time_to_sleep * 1000);
 }
 static void	try_take_forks(t_philo *me, t_philo *first_fork, t_philo *second_fork)
