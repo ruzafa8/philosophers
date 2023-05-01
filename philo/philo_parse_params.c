@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 20:50:58 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:07:36 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ static t_data	*create_philos(t_data *data)
 	}
 	data->t0 = philo_current_time();
 	pthread_mutex_init(&(data->mutex_print), 0);
+	pthread_mutex_init(&(data->mutex_num_philos_eaten), 0);
+	pthread_mutex_init(&(data->mutex_anyone_dead), 0);
 	philo_init_threads(data);
 	return (data);
 }

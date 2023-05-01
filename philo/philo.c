@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:13 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 20:08:39 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 22:07:47 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	main(int argc, char **argv)
 	printf("All philosophers have eaten at least %d times.\n", data->num_meals);
 	free_philos(data->philos);
 	pthread_mutex_destroy(&(data->mutex_print));
+	pthread_mutex_destroy(&(data->mutex_num_philos_eaten));
+	pthread_mutex_destroy(&(data->mutex_anyone_dead));
 	free(data);
 	return (0);
 }
