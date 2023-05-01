@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 19:11:28 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:34:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ static t_data	*create_philos(t_data *data)
 		philo_list_add_back(&data->philos, philo_list_new(i, data));
 		i++;
 	}
-	// TODO: Initialize mutexes and semaphores here.
 	philo = data->philos;
 	while (philo)
 	{
 		pthread_mutex_init(&philo->mutex_fork, 0);
 		philo = philo->next;
 	}
+	data->t0 = philo_current_time();
 	philo_init_threads(data);
 	return (data);
 }

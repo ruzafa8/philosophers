@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:59:49 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:33:37 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	*philo_routine(void *params)
 	if (philo->id % 2 == 0)
 		usleep(1000);
 	pthread_mutex_lock(&(philo->data->mutex_print));
-	printf("philo %d\n", philo->id);
+	printf("%d philo %d\n", philo_current_time() - philo->data->t0, philo->id);
 	pthread_mutex_unlock(&(philo->data->mutex_print));
 	return (0);
 }

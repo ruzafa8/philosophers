@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:06:45 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 18:33:29 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/01 19:38:19 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ struct s_philo
 {
 	int				id;
 	pthread_mutex_t	mutex_fork;
+	int				fork;
 	pthread_t		thread;
 	int				time_last_meal;
 	int				num_meals_eaten;
@@ -58,6 +59,7 @@ void	philo_init_threads(t_data *data);
 
 /** utils **/
 void	*philo_calloc(size_t len);
+int		philo_current_time(void);
 
 /** list utils **/
 t_philo	*philo_list_new(int id, t_data *data);
