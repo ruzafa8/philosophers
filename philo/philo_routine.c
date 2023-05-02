@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:11:45 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:15:42 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	try_take_fork(int id, t_philo *philo)
 		if (all_eaten(philo->data))
 			return (1);
 		pthread_mutex_lock(&(philo->data->mutex_print));
-		printf("%-6llu %-3d chopstick %d taken.\n", philo_current_time() - philo->data->t0, id, philo->id);
+		philo_print(id, philo->data, "has taken a fork");
 		pthread_mutex_unlock(&(philo->data->mutex_print));
 		taken = 1;
 	}
@@ -33,7 +33,8 @@ static int	try_take_fork(int id, t_philo *philo)
 		pthread_mutex_unlock(&(philo->mutex_fork));
 	return (taken);
 }
-static void think(int id, t_philo *fork)
+
+static void philo_think(int id, t_philo *fork)
 {
 	int	taken;
 
@@ -50,7 +51,7 @@ static void think(int id, t_philo *fork)
 		taken = try_take_fork(id, fork);
 }
 
-static void eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
+static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (all_eaten(me->data))
@@ -72,13 +73,14 @@ static void eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	pthread_mutex_unlock(&(me->data->mutex_print));
 	usleep(me->data->time_to_sleep * 1000);
 }
-static void	try_take_forks(t_philo *me, t_philo *first_fork, t_philo *second_fork)
+
+static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
 {
-	if (!try_take_fork(me->id, first_fork))
-		think(me->id, first_fork);
-	if (!try_take_fork(me->id, second_fork))
-		think(me->id, second_fork);
-	eat(me, first_fork, second_fork);
+	if (!try_take_fork(me->id, fst_fork))
+		philo_think(me->id, fst_fork);
+	if (!try_take_fork(me->id, snd_fork))
+		philo_think(me->id, snd_fork);
+	philo_eat(me, fst_fork, snd_fork);
 }
 
 void	*philo_routine(void *params)
