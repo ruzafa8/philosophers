@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:15:42 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:44:10 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static int	try_take_fork(int id, t_philo *philo)
 {
 	int	taken;
 
+	if (philo_check_dead(philo))
+		return (-1);
 	pthread_mutex_lock(&(philo->mutex_fork));
 	taken = 0;
 	if (!philo->fork)
@@ -23,7 +25,7 @@ static int	try_take_fork(int id, t_philo *philo)
 		philo->fork = 1;
 		pthread_mutex_unlock(&(philo->mutex_fork));
 		if (all_eaten(philo->data))
-			return (1);
+			return (-1);
 		pthread_mutex_lock(&(philo->data->mutex_print));
 		philo_print(id, philo->data, "has taken a fork");
 		pthread_mutex_unlock(&(philo->data->mutex_print));
@@ -34,27 +36,30 @@ static int	try_take_fork(int id, t_philo *philo)
 	return (taken);
 }
 
-static void philo_think(int id, t_philo *fork)
+static int philo_think(int id, t_philo *fork)
 {
 	int	taken;
 
 	taken = 0;
+	if (philo_check_dead(fork))
+		return (-1);
 	pthread_mutex_lock(&(fork->data->mutex_print));
 	if (all_eaten(fork->data))
 	{
 		pthread_mutex_unlock(&(fork->data->mutex_print));
-		return ;
+		return (-1);
 	}
 	philo_print(id, fork->data, "is thinking");
 	pthread_mutex_unlock(&(fork->data->mutex_print));
 	while (!taken)
 		taken = try_take_fork(id, fork);
+	return (0);
 }
 
 static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
 	pthread_mutex_lock(&(me->data->mutex_print));
-	if (all_eaten(me->data))
+	if (all_eaten(me->data) || philo_check_dead(me))
 	{
 		pthread_mutex_unlock(&(me->data->mutex_print));
 		return ;
@@ -62,6 +67,8 @@ static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	philo_print(me->id, first_fork->data, "is eating");
 	pthread_mutex_unlock(&(me->data->mutex_print));
 	usleep(first_fork->data->time_to_eat * 1000);
+	if (philo_check_dead(me))
+		return ;
 	me->time_last_meal = philo_current_time();
 	me->num_meals_eaten++;
 	pthread_mutex_lock(&(me->data->mutex_print));
@@ -72,14 +79,26 @@ static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	philo_print(me->id, me->data, "is sleeping");
 	pthread_mutex_unlock(&(me->data->mutex_print));
 	usleep(me->data->time_to_sleep * 1000);
+	if (philo_check_dead(me))
+		return ;
 }
 
 static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
 {
-	if (!try_take_fork(me->id, fst_fork))
-		philo_think(me->id, fst_fork);
-	if (!try_take_fork(me->id, snd_fork))
-		philo_think(me->id, snd_fork);
+	int	taken;
+
+	taken = try_take_fork(me->id, fst_fork);
+	if (taken == -1)
+		return ;
+	if (!taken)
+		if (philo_think(me->id, fst_fork) == -1)
+			return ;
+	taken = try_take_fork(me->id, snd_fork);
+	if (taken == -1)
+		return ;
+	if (!taken)
+		if (philo_think(me->id, snd_fork) == -1)
+			return ;
 	philo_eat(me, fst_fork, snd_fork);
 }
 
@@ -92,7 +111,7 @@ void	*philo_routine(void *params)
 	next_philo = philo->next;
 	if (next_philo == 0)
 		next_philo = philo->data->philos;
-	while (!all_eaten(philo->data))
+	while (!all_eaten(philo->data) && !philo_any_dead(philo->data))
 	{
 		if (philo->id % 2 == 0)
 			try_take_forks(philo, philo, next_philo);
