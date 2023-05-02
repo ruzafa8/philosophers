@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 22:47:07 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:06:34 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static t_data	*create_philos(t_data *data)
 	philo = data->philos;
 	while (philo)
 	{
-		pthread_mutex_init(&philo->mutex_fork, 0);
+		pthread_mutex_init(&(philo->mutex_fork), 0);
 		philo = philo->next;
 	}
 	data->t0 = philo_current_time();

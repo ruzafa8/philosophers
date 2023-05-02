@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 23:05:47 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/02 18:11:45 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static int	try_take_fork(int id, t_philo *philo)
 		philo->fork = 1;
 		pthread_mutex_unlock(&(philo->mutex_fork));
 		if (all_eaten(philo->data))
-			return (0);
+			return (1);
 		pthread_mutex_lock(&(philo->data->mutex_print));
 		printf("%-6llu %-3d chopstick %d taken.\n", philo_current_time() - philo->data->t0, id, philo->id);
 		pthread_mutex_unlock(&(philo->data->mutex_print));
