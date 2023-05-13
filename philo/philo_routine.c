@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:32:15 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:44:07 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	set_fork(second_fork, 0);
 	philo_print(me->id, me->data, "is sleeping");
 	pthread_mutex_unlock(&(me->data->mutex_print));
-	usleep(me->data->time_to_sleep * 1000);
+	philo_sleeping(me);
 	if (philo_check_dead(me))
 		return ;
 }

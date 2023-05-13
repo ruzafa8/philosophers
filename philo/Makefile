@@ -3,7 +3,8 @@ SRCS	= philo.c \
 		philo_parse_params.c \
 		utils.c \
 		utils2.c \
-		utils_death.c
+		utils_death.c\
+		utils_eat.c
 OBJS	= ${SRCS:.c=.o}
 NAME	= philo
 CC		= gcc
