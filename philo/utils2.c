@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/01 23:02:44 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:47:26 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,20 @@ int	all_eaten(t_data *data)
 	all_has_eaten = data->num_philos_eaten >= data->num_philos;
 	pthread_mutex_unlock(&(data->mutex_num_philos_eaten));
 	return (all_has_eaten);
+}
+
+int	philo_eating(t_philo *me)
+{
+	uint64_t	time_before_eat;
+
+	time_before_eat = philo_current_time();
+	while ((int)(philo_current_time() - time_before_eat) < me->data->time_to_eat)
+	{
+		if (philo_check_dead(me))
+			return (0);
+		usleep(10);
+	}
+	return (1);
 }
 
 void	*free_philos(t_philo *head)

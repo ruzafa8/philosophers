@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:13:35 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:48:00 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ static int philo_think(int id, t_philo *fork)
 
 static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
+	if (philo_check_dead(me))
+		return ;
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (all_eaten(me->data) || philo_any_dead(me->data))
 	{
@@ -66,8 +68,7 @@ static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	}
 	philo_print(me->id, first_fork->data, "is eating");
 	pthread_mutex_unlock(&(me->data->mutex_print));
-	usleep(first_fork->data->time_to_eat * 1000);
-	if (philo_check_dead(me))
+	if (!philo_eating(me))
 		return ;
 	me->time_last_meal = philo_current_time();
 	me->num_meals_eaten++;

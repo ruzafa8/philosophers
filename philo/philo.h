@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:06:45 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:38:28 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:41:39 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_philo		*philo_list_new(int id, t_data *data);
 void		philo_list_add_back(t_philo **head, t_philo *new);
 void		*free_philos(t_philo *head);
 int			all_eaten(t_data *data);
+int			philo_eating(t_philo *me);
 
 /** utils of the death **/
 int			philo_any_dead(t_data *data);
