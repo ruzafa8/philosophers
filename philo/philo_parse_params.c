@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:56 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:06:34 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:57:43 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	philo_atoi(char *str)
 
 static t_data	*create_philos(t_data *data)
 {
-	int	i;
+	int		i;
 	t_philo	*philo;
 
 	if (!data)

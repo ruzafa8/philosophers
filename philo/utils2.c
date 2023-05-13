@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:47:26 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:56:06 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ int	philo_eating(t_philo *me)
 	uint64_t	time_before_eat;
 
 	time_before_eat = philo_current_time();
-	while ((int)(philo_current_time() - time_before_eat) < me->data->time_to_eat)
+	while ((int)(philo_current_time() - time_before_eat)
+		< me->data->time_to_eat)
 	{
 		if (philo_check_dead(me))
 			return (0);

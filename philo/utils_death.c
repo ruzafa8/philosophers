@@ -6,13 +6,13 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:21:50 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:11:35 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:58:18 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-int		philo_any_dead(t_data *data)
+int	philo_any_dead(t_data *data)
 {
 	int	any_dead;
 
@@ -24,12 +24,12 @@ int		philo_any_dead(t_data *data)
 
 int	philo_check_dead(t_philo *me)
 {
-	int 	i_am_dead;
-	uint64_t current_time;
+	int			i_am_dead;
+	uint64_t	current_time;
 
 	i_am_dead = 0;
 	current_time = philo_current_time() - me->data->t0;
-	if (current_time - me->time_last_meal >= (u_int64_t) me->data->time_to_die)
+	if (current_time - me->time_last_meal >= (u_int64_t)me->data->time_to_die)
 	{
 		pthread_mutex_lock(&(me->data->mutex_print));
 		if (all_eaten(me->data) || philo_any_dead(me->data))

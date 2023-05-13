@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 14:06:45 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:41:39 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:57:25 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void		*philo_routine(void *params);
 void		*philo_calloc(size_t len);
 uint64_t	philo_current_time(void);
 void		set_fork(t_philo *fork, int value);
-void 		increase_num_philos_eaten(t_data *data);
+void		increase_num_philos_eaten(t_data *data);
 void		philo_print(int id, t_data *data, char *status);
 
 /** more utils **/

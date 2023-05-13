@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:48:00 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:57:58 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	try_take_fork(int id, t_philo *philo)
 	return (taken);
 }
 
-static int philo_think(int id, t_philo *fork)
+static int	philo_think(int id, t_philo *fork)
 {
 	int	taken;
 
@@ -56,7 +56,7 @@ static int philo_think(int id, t_philo *fork)
 	return (0);
 }
 
-static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
+static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
 	if (philo_check_dead(me))
 		return ;
