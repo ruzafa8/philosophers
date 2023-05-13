@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/02 18:44:10 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:13:35 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	try_take_fork(int id, t_philo *philo)
 	{
 		philo->fork = 1;
 		pthread_mutex_unlock(&(philo->mutex_fork));
-		if (all_eaten(philo->data))
-			return (-1);
 		pthread_mutex_lock(&(philo->data->mutex_print));
+		if (all_eaten(philo->data) || philo_any_dead(philo->data))
+			return (pthread_mutex_unlock(&(philo->data->mutex_print)), -1);
 		philo_print(id, philo->data, "has taken a fork");
 		pthread_mutex_unlock(&(philo->data->mutex_print));
 		taken = 1;
@@ -44,7 +44,7 @@ static int philo_think(int id, t_philo *fork)
 	if (philo_check_dead(fork))
 		return (-1);
 	pthread_mutex_lock(&(fork->data->mutex_print));
-	if (all_eaten(fork->data))
+	if (all_eaten(fork->data) || philo_any_dead(fork->data))
 	{
 		pthread_mutex_unlock(&(fork->data->mutex_print));
 		return (-1);
@@ -59,7 +59,7 @@ static int philo_think(int id, t_philo *fork)
 static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
 	pthread_mutex_lock(&(me->data->mutex_print));
-	if (all_eaten(me->data) || philo_check_dead(me))
+	if (all_eaten(me->data) || philo_any_dead(me->data))
 	{
 		pthread_mutex_unlock(&(me->data->mutex_print));
 		return ;
@@ -74,6 +74,11 @@ static void philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (me->num_meals_eaten == me->data->num_meals)
 		increase_num_philos_eaten(me->data);
+	if (all_eaten(me->data) || philo_any_dead(me->data))
+	{
+		pthread_mutex_unlock(&(me->data->mutex_print));
+		return ;
+	}
 	set_fork(first_fork, 0);
 	set_fork(second_fork, 0);
 	philo_print(me->id, me->data, "is sleeping");
@@ -105,7 +110,7 @@ static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
 void	*philo_routine(void *params)
 {
 	t_philo	*philo;
-	t_philo *next_philo;
+	t_philo	*next_philo;
 
 	philo = (t_philo *) params;
 	next_philo = philo->next;
