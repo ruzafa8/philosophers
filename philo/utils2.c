@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:56:06 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:26:43 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	all_eaten(t_data *data)
 	int	all_has_eaten;
 
 	pthread_mutex_lock(&(data->mutex_num_philos_eaten));
-	all_has_eaten = data->num_philos_eaten >= data->num_philos;
+	all_has_eaten = data->num_philos_eaten == data->num_philos;
 	pthread_mutex_unlock(&(data->mutex_num_philos_eaten));
 	return (all_has_eaten);
 }
