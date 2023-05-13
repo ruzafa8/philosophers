@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:44:07 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 18:12:04 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,14 @@ static int	try_take_fork(t_philo *me, t_philo *philo)
 	return (taken);
 }
 
-static int	philo_think(t_philo *me, t_philo *fork)
+static int	philo_try_take_fork(t_philo *me, t_philo *fork)
 {
 	int	taken;
 
 	taken = 0;
-	if (philo_check_dead(me))
-		return (-1);
-	pthread_mutex_lock(&(fork->data->mutex_print));
-	if (all_eaten(fork->data) || philo_any_dead(fork->data))
-	{
-		pthread_mutex_unlock(&(fork->data->mutex_print));
-		return (-1);
-	}
-	philo_print(me->id, fork->data, "is thinking");
-	pthread_mutex_unlock(&(fork->data->mutex_print));
 	while (!taken)
 		taken = try_take_fork(me, fork);
-	return (0);
+	return (taken);
 }
 
 static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
@@ -87,43 +77,50 @@ static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	philo_sleeping(me);
 	if (philo_check_dead(me))
 		return ;
+	pthread_mutex_lock(&(me->data->mutex_print));
+	if (all_eaten(me->data) || philo_any_dead(me->data))
+	{
+		pthread_mutex_unlock(&(me->data->mutex_print));
+		return ;
+	}
+	philo_print(me->id, me->data, "is thinking");
+	pthread_mutex_unlock(&(me->data->mutex_print));
 }
 
 static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
 {
-	int	taken;
-
-	taken = try_take_fork(me, fst_fork);
-	if (taken == -1)
+	if (philo_try_take_fork(me, fst_fork) == -1)
 		return ;
-	if (!taken)
-		if (philo_think(me, fst_fork) == -1)
-			return ;
-	taken = try_take_fork(me, snd_fork);
-	if (taken == -1)
+	if (philo_try_take_fork(me, snd_fork) == -1)
 		return ;
-	if (!taken)
-		if (philo_think(me, snd_fork) == -1)
-			return ;
 	philo_eat(me, fst_fork, snd_fork);
 }
 
 void	*philo_routine(void *params)
 {
-	t_philo	*philo;
-	t_philo	*next_philo;
+	t_philo	*me;
+	t_philo	*mate;
+	t_philo	*first_fork;
+	t_philo	*second_fork;
+	int		taken;
 
-	philo = (t_philo *) params;
-	philo->time_last_meal = philo_current_time();
-	next_philo = philo->next;
-	if (next_philo == 0)
-		next_philo = philo->data->philos;
-	while (!all_eaten(philo->data) && !philo_any_dead(philo->data))
+	taken = 0;
+	me = (t_philo *) params;
+	me->time_last_meal = philo_current_time();
+	mate = me->next;
+	if (mate == 0)
+		mate = me->data->philos;
+	if (me->id % 2 == 0)
 	{
-		if (philo->id % 2 == 0)
-			try_take_forks(philo, philo, next_philo);
-		else
-			try_take_forks(philo, next_philo, philo);
+		first_fork = me;
+		second_fork = mate;
 	}
+	else
+	{
+		first_fork = mate;
+		second_fork = me;
+	}
+	while (!all_eaten(me->data) && !philo_any_dead(me->data))
+		try_take_forks(me, first_fork, second_fork);
 	return (0);
 }
