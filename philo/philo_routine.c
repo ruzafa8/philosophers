@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:18:33 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:32:15 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,7 @@ void	*philo_routine(void *params)
 	t_philo	*next_philo;
 
 	philo = (t_philo *) params;
+	philo->time_last_meal = philo_current_time();
 	next_philo = philo->next;
 	if (next_philo == 0)
 		next_philo = philo->data->philos;
