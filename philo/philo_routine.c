@@ -6,17 +6,17 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:57:58 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:15:18 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-static int	try_take_fork(int id, t_philo *philo)
+static int	try_take_fork(t_philo *me, t_philo *philo)
 {
 	int	taken;
 
-	if (philo_check_dead(philo))
+	if (philo_check_dead(me))
 		return (-1);
 	pthread_mutex_lock(&(philo->mutex_fork));
 	taken = 0;
@@ -27,7 +27,7 @@ static int	try_take_fork(int id, t_philo *philo)
 		pthread_mutex_lock(&(philo->data->mutex_print));
 		if (all_eaten(philo->data) || philo_any_dead(philo->data))
 			return (pthread_mutex_unlock(&(philo->data->mutex_print)), -1);
-		philo_print(id, philo->data, "has taken a fork");
+		philo_print(me->id, philo->data, "has taken a fork");
 		pthread_mutex_unlock(&(philo->data->mutex_print));
 		taken = 1;
 	}
@@ -36,7 +36,7 @@ static int	try_take_fork(int id, t_philo *philo)
 	return (taken);
 }
 
-static int	philo_think(int id, t_philo *fork)
+static int	philo_think(t_philo *me, t_philo *fork)
 {
 	int	taken;
 
@@ -49,10 +49,10 @@ static int	philo_think(int id, t_philo *fork)
 		pthread_mutex_unlock(&(fork->data->mutex_print));
 		return (-1);
 	}
-	philo_print(id, fork->data, "is thinking");
+	philo_print(me->id, fork->data, "is thinking");
 	pthread_mutex_unlock(&(fork->data->mutex_print));
 	while (!taken)
-		taken = try_take_fork(id, fork);
+		taken = try_take_fork(me, fork);
 	return (0);
 }
 
@@ -93,17 +93,17 @@ static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
 {
 	int	taken;
 
-	taken = try_take_fork(me->id, fst_fork);
+	taken = try_take_fork(me, fst_fork);
 	if (taken == -1)
 		return ;
 	if (!taken)
-		if (philo_think(me->id, fst_fork) == -1)
+		if (philo_think(me, fst_fork) == -1)
 			return ;
-	taken = try_take_fork(me->id, snd_fork);
+	taken = try_take_fork(me, snd_fork);
 	if (taken == -1)
 		return ;
 	if (!taken)
-		if (philo_think(me->id, snd_fork) == -1)
+		if (philo_think(me, snd_fork) == -1)
 			return ;
 	philo_eat(me, fst_fork, snd_fork);
 }
