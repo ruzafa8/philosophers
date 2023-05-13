@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:21:40 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 16:56:16 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 16:59:27 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	philo_print(int id, t_data *data, char *status)
 	u_int64_t	time;
 
 	time = philo_current_time() - data->t0;
-	printf("%-6llu %-3d %s\n", time, id, status);
+	printf("%-6llu %-3d %s\n", time, id + 1, status);
 }
 
 void	increase_num_philos_eaten(t_data *data)
