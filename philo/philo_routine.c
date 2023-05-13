@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:15:18 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/13 17:18:33 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	philo_think(t_philo *me, t_philo *fork)
 	int	taken;
 
 	taken = 0;
-	if (philo_check_dead(fork))
+	if (philo_check_dead(me))
 		return (-1);
 	pthread_mutex_lock(&(fork->data->mutex_print));
 	if (all_eaten(fork->data) || philo_any_dead(fork->data))
