@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 18:21:50 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:33:50 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:32:25 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	philo_check_dead(t_philo *me)
 
 	i_am_dead = 0;
 	current_time = philo_current_time();
-	if (current_time - me->time_last_meal >= (u_int64_t)me->data->time_to_die)
+	if (current_time - me->time_last_meal > (u_int64_t)me->data->time_to_die)
 	{
 		pthread_mutex_lock(&(me->data->mutex_print));
 		if (all_eaten(me->data) || philo_any_dead(me->data))
