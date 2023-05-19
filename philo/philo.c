@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:13 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:41:09 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:30:14 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	main(int argc, char **argv)
 		pthread_join(philo->thread, 0);
 		philo = philo->next;
 	}
+	if (data->num_meals != -1 && data->num_philos_eaten == data->num_philos && !data->anyone_dead)
+		printf("All philosophers have eaten %d times.\n", data->num_meals);
 	free_philos(data->philos);
 	pthread_mutex_destroy(&(data->mutex_print));
 	pthread_mutex_destroy(&(data->mutex_num_philos_eaten));
