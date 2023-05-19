@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:23:43 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:55:44 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_philo	*philo_list_new(int id, t_data *data)
 		return (0);
 	node->id = id;
 	node->data = data;
+	node->time_last_meal = philo_current_time();
 	return (node);
 }
 
