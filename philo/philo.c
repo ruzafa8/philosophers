@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 13:39:13 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 15:51:25 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:41:09 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int	main(int argc, char **argv)
 	if (!data)
 		return (1);
 	philo = data->philos;
+	check_philo_status(data);
 	while (philo)
 	{
 		pthread_join(philo->thread, 0);
