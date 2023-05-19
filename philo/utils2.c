@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:20:42 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/13 17:43:33 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 16:23:43 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,7 @@ int	philo_sleeping(t_philo *me)
 	while ((int)(philo_current_time() - time_before_sleep)
 		< me->data->time_to_sleep)
 	{
-		if (philo_check_dead(me))
-			return (0);
-		usleep(10);
+		usleep(50);
 	}
 	return (1);
 }
