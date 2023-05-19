@@ -6,13 +6,13 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/13 17:39:41 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 16:23:27 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:37:59 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
- int	all_eaten(t_data *data)
+int	all_eaten(t_data *data)
 {
 	int	all_has_eaten;
 

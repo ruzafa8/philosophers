@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 17:25:32 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 17:40:37 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,26 +46,20 @@ static int	philo_try_take_fork(t_philo *me, t_philo *fork)
 	return (taken);
 }
 
-static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
+static int	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 {
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (all_eaten(me->data) || philo_any_dead(me->data))
-	{
-		pthread_mutex_unlock(&(me->data->mutex_print));
-		return ;
-	}
+		return (pthread_mutex_unlock(&(me->data->mutex_print)));
 	philo_print(me->id, first_fork->data, "is eating");
 	pthread_mutex_unlock(&(me->data->mutex_print));
 	me->time_last_meal = philo_current_time();
 	me->num_meals_eaten++;
 	if (!philo_eating(me))
-		return ;
+		return (0);
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (all_eaten(me->data) || philo_any_dead(me->data))
-	{
-		pthread_mutex_unlock(&(me->data->mutex_print));
-		return ;
-	}
+		return (pthread_mutex_unlock(&(me->data->mutex_print)));
 	set_fork(first_fork, 0);
 	set_fork(second_fork, 0);
 	if (me->num_meals_eaten == me->data->num_meals)
@@ -75,12 +69,10 @@ static void	philo_eat(t_philo *me, t_philo *first_fork, t_philo *second_fork)
 	philo_sleeping(me);
 	pthread_mutex_lock(&(me->data->mutex_print));
 	if (all_eaten(me->data) || philo_any_dead(me->data))
-	{
-		pthread_mutex_unlock(&(me->data->mutex_print));
-		return ;
-	}
+		return (pthread_mutex_unlock(&(me->data->mutex_print)));
 	philo_print(me->id, me->data, "is thinking");
 	pthread_mutex_unlock(&(me->data->mutex_print));
+	return (0);
 }
 
 static void	try_take_forks(t_philo *me, t_philo *fst_fork, t_philo *snd_fork)
