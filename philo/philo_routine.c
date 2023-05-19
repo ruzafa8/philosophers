@@ -6,7 +6,7 @@
 /*   By: aruzafa- <aruzafa-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/01 17:18:29 by aruzafa-          #+#    #+#             */
-/*   Updated: 2023/05/19 17:40:37 by aruzafa-         ###   ########.fr       */
+/*   Updated: 2023/05/19 18:30:02 by aruzafa-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,16 @@ void	*philo_routine(void *params)
 	mate = me->next;
 	if (mate == 0)
 		mate = me->data->philos;
-	first_fork = me;
-	second_fork = mate;
 	if (me->id % 2 == 0)
 	{
-		usleep(50);
+		usleep(60);
+		first_fork = me;
+		second_fork = mate;
+	}
+	else
+	{
+		first_fork = mate;
+		second_fork = me;
 	}
 	while (!all_eaten(me->data) && !philo_any_dead(me->data))
 		try_take_forks(me, first_fork, second_fork);
